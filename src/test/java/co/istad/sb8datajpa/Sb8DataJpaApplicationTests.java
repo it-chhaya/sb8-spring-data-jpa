@@ -15,6 +15,14 @@ class Sb8DataJpaApplicationTests {
     UserRepository userRepository;
 
     @Test
+    void test_login() {
+        User loggedInUser = userRepository.login(
+                "admin@istad.co", false
+        ).orElseThrow();
+        System.out.println(loggedInUser);
+    }
+
+    @Test
     void test_findUserByUsernameOrEmail() {
         System.out.println(userRepository.findByUsernameAndIsDeleted("admin",  false));
     }
