@@ -15,9 +15,19 @@ class Sb8DataJpaApplicationTests {
     UserRepository userRepository;
 
     @Test
+    void test_updateBiography() {
+        String newBiography = """
+                Now i connect my new DB with my Sping(Java) something.
+                But, I don't understand why in RUN output in IJ and SQL Shell shows wrong order of lines.
+                The first line in column should be ID. After should go - name,email, date,age.
+                """;
+        userRepository.updateBiography("student", newBiography);
+    }
+
+    @Test
     void test_login() {
         User loggedInUser = userRepository.login(
-                "admin@istad.co", false
+                "student", false
         ).orElseThrow();
         System.out.println(loggedInUser);
     }
