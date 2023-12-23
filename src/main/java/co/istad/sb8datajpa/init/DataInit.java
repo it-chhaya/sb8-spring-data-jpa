@@ -27,7 +27,7 @@ public class DataInit {
         Role admin = Role.builder().name("ADMIN").build();
         Role student = Role.builder().name("STUDENT").build();
         Role instructor = Role.builder().name("INSTRUCTOR").build();
-        //roleRepository.saveAll(List.of(user, admin, student, instructor));
+        roleRepository.saveAll(List.of(user, admin, student, instructor));
 
         // Insert user:
         User userAdmin = User.builder()
@@ -38,11 +38,37 @@ public class DataInit {
                 .givenName("Chhaya")
                 .gender("Male")
                 .dob(LocalDate.of(1990, 11, 11))
-                .biography("IT Instructor at CSTAD")
+                .biography("Teacher of Spring framework")
                 .isDeleted(false)
                 .roles(Set.of(user, admin))
                 .build();
+        User userStudent = User.builder()
+                .username("student")
+                .email("student@istad.co")
+                .password("student@123")
+                .familyName("Jack")
+                .givenName("Dawson")
+                .gender("Male")
+                .dob(LocalDate.of(1980, 11, 11))
+                .biography("Lead action in Titanic")
+                .isDeleted(false)
+                .roles(Set.of(user, student))
+                .build();
+        User userInstructor = User.builder()
+                .username("instructor")
+                .email("instructor@istad.co")
+                .password("instructor@123")
+                .familyName("Kit")
+                .givenName("Tara")
+                .gender("Female")
+                .dob(LocalDate.of(2000, 11, 11))
+                .biography("IT Instructor at CSTAD")
+                .isDeleted(false)
+                .roles(Set.of(user, instructor))
+                .build();
         userRepository.save(userAdmin);
+        userRepository.save(userStudent);
+        userRepository.save(userInstructor);
     }
 
 }
