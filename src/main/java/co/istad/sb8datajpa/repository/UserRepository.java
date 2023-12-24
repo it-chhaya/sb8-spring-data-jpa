@@ -11,6 +11,25 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    boolean existsByUsername(String username);
+    boolean existsByEmail(String email);
+
+    @Transactional
+    @Modifying
+    @Query("""
+        DELETE User AS u
+        WHERE u.username = ?1
+    """)
+    void deletePermanently(String username);
+
+    @Transactional
+    @Modifying
+    @Query("""
+        UPDATE User AS u SET u.isDeleted = TRUE
+        WHERE u.username = ?1
+    """)
+    void disable(String username);
+
     @Transactional
     @Modifying
     @Query("""
