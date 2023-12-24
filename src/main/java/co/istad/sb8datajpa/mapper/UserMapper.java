@@ -12,7 +12,8 @@ public interface UserMapper {
 
     User fromUserCreationDto(UserCreationDto creationDto);
 
-    void fromUserEditionDto(@MappingTarget User user, UserEditionDto userEditionDto);
+    void fromUserEditionDto(@MappingTarget User user,
+                            UserEditionDto userEditionDto);
 
     UserDto toUserDto(User user);
 

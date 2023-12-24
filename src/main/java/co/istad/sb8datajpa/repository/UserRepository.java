@@ -22,13 +22,19 @@ public interface UserRepository extends JpaRepository<User, Long> {
     """)
     void deletePermanently(String username);
 
-    @Transactional
     @Modifying
     @Query("""
         UPDATE User AS u SET u.isDeleted = TRUE
-        WHERE u.username = ?1
+        WHERE u.id = ?1
     """)
-    void disable(String username);
+    void disable(Long id);
+
+    @Modifying
+    @Query("""
+        UPDATE User AS u SET u.isDeleted = FALSE
+        WHERE u.id = ?1
+    """)
+    void enable(Long id);
 
     @Transactional
     @Modifying
@@ -47,13 +53,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     """)
     Optional<User> login(String usernameOrEmail, Boolean isDeleted);
 
-    Optional<User> findByEmailAndIsDeleted(String email, Boolean isDeleted);
-
-    Optional<User> findByUsername(String username);
-
     Optional<User> findByUsernameAndIsDeleted(String username, Boolean isDeleted);
 
     List<User> findByFamilyNameContainsIgnoreCase(String familyName);
 
-    List<User> findByGenderContainsIgnoreCase(String gender);
 }

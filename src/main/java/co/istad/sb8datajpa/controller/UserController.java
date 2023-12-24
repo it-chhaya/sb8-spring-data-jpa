@@ -45,4 +45,22 @@ public class UserController {
                 .timestamp(LocalDateTime.now())
                 .build();
     }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{id}/enable")
+    void enableById(@PathVariable Long id) {
+        userService.enableById(id);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{id}/disable")
+    void disableById(@PathVariable Long id) {
+        userService.disableById(id);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{id}")
+    void deleteById(@PathVariable Long id) {
+        userService.deleteById(id);
+    }
 }

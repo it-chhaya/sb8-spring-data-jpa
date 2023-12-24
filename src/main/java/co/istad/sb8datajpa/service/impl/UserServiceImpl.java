@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashSet;
@@ -71,10 +72,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto findById(Long id) {
+
         User foundUser = userRepository.findById(id)
-                .orElseThrow(() ->
-                        new ResponseStatusException(HttpStatus.NOT_FOUND,
-                                String.format("User Id = %d has not found in database", id)));
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        String.format("User Id = %d has not found in database", id)
+                ));
 
         return userMapper.toUserDto(foundUser);
     }
@@ -84,18 +87,38 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    @Transactional
     @Override
     public void enableById(Long id) {
-
+        if (!userRepository.existsById(id)) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    String.format("User Id = %d has not found in database", id)
+            );
+        }
+        userRepository.enable(id);
     }
 
+    @Transactional
     @Override
     public void disableById(Long id) {
-
+        if (!userRepository.existsById(id)) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    String.format("User Id = %d has not found in database", id)
+            );
+        }
+        userRepository.disable(id);
     }
 
     @Override
     public void deleteById(Long id) {
-
+        if (!userRepository.existsById(id)) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    String.format("User Id = %d has not found in database", id)
+            );
+        }
+        userRepository.deleteById(id);
     }
 }
