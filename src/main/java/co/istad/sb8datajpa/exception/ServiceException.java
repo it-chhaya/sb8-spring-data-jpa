@@ -10,17 +10,15 @@ import java.time.LocalDateTime;
 
 @RestControllerAdvice
 public class ServiceException {
-
     @ExceptionHandler(ResponseStatusException.class)
     ResponseEntity<BaseError<?>> handleServiceException(ResponseStatusException e) {
         BaseError<?> baseError = BaseError.builder()
                 .errors(e.getReason())
                 .status(false)
                 .code(e.getStatusCode().value())
-                .message(e.getMessage())
+                .message("Something went wrong!")
                 .timestamp(LocalDateTime.now())
                 .build();
         return new ResponseEntity<>(baseError, e.getStatusCode());
     }
-
 }
